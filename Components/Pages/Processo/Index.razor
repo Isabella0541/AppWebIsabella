@@ -1,4 +1,7 @@
 ﻿@page "/processos"
+@using AppWebIsabella.Model
+@using AppWebIsabella.DAO
+@inject ProcessoDAO ProcessoDAO
 
 <PageTitle> Processos - Sistema de Controle de Processos</PageTitle>
 
@@ -23,20 +26,31 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>478</td>
-                    <td>Joana</td>
-                    <td>Solicitação de manutenção nos computadores</td>
-                    <td>Crítica</td>
-                    <td>Manutenção</td>
-                </tr>
-            </tbody>
+                @foreach (var processo in processos)
+                {
+                    <tr>
+                        <td>@processo.Id</td>
+                        <td>@processo.Numero</td>
+                        <td>@processo.Interessado</td>
+                        <td>@processo.Assunto</td>
+                        <td>@processo.Situacao</td>
+                        <td></td>
+                    </tr>
+                }
+
+            </tbody> 
         </table>
     </div>
 </div>
 
 
 @code {
+    private List<Processo> processos = new();
+
+    protected override void OnInitialized()
+    {
+        processos = ProcessoDAO.Listar();
+    }
+
 
 }
