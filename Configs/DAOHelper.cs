@@ -31,8 +31,21 @@ namespace AppWebIsabella.Configs
                     value = reader.GetDateTime(column_name);
                 return value;
             }
-            // Indica se uma coluna está NULL
-            public static bool IsNull(MySqlDataReader reader, string column_name)
+        public static DateOnly? GetDateOnly(MySqlDataReader reader, string column_name)
+        {
+            DateOnly? value = null;
+
+            if (!reader.IsDBNull(reader.GetOrdinal(column_name)))
+            {
+                // Busca o DateTime do banco e converte para DateOnly
+                value = DateOnly.FromDateTime(reader.GetDateTime(column_name));
+            }
+
+            return value;
+        }
+
+        // Indica se uma coluna está NULL
+        public static bool IsNull(MySqlDataReader reader, string column_name)
             {
                 return reader.IsDBNull(reader.GetOrdinal(column_name));
             }
